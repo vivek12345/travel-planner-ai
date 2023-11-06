@@ -43,4 +43,39 @@ const handler = async (req, res) => {
   }
 };
 
-export default handler;
+export async function POST(request) {
+  try {
+    const completion = await openai.completions.create({
+      model: "text-davinci-003",
+      prompt: generatePrompt(request),
+      temperature: 0.6,
+      max_tokens: 2048,
+    });
+    return new Response(
+      JSON.stringify({
+        result: completion.choices[0].text,
+      }),
+      {
+        status: 200,
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: "An error occurred during the request.",
+        },
+      }),
+      {
+        status: 500,
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
+  }
+}
