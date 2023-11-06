@@ -21,6 +21,7 @@ const generatePrompt = (req) => {
   return promptTemplate;
 };
 
+/*
 const handler = async (req, res) => {
   try {
     const completion = await openai.completions.create({
@@ -42,8 +43,9 @@ const handler = async (req, res) => {
     });
   }
 };
+*/
 
-export async function POST(request) {
+export default async function handler(request) {
   try {
     const completion = await openai.completions.create({
       model: "text-davinci-003",
